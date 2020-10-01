@@ -1,0 +1,30 @@
+{
+  "name": "help-a-student",
+  "version": "1.0.0",
+  "description": "A donation website for students",
+  "main": "app.js",
+  "scripts": {
+    "start":"nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmruthVamshi/help-a-student.git"
+  },
+  "author": "capstone-backend-team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AmruthVamshi/help-a-student/issues"
+  },
+  "homepage": "https://github.com/AmruthVamshi/help-a-student#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "pg": "^8.3.3",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.3.5"
+  }
+}
