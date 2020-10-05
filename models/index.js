@@ -14,8 +14,14 @@ const sequelize = new Sequelize(dbConfig.DB,dbConfig.USER,dbConfig.PASSWORD,{
 	}
 });
 
+//importing all models
+const Donor = require('./donor.model')(sequelize,Sequelize);
+const Donnie = require('./donnie.model')(sequelize,Sequelize);
+
 //exporting all models
 module.exports = {
 	Sequelize,
-	sequelize
+	sequelize,
+	Donor,
+	Donnie
 }
