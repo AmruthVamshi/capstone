@@ -29,7 +29,6 @@ require('./config/passport.setup');
 //middleware
 app.use(
 	cors({
-	Access-Control-Allow-Origin:*,
     origin: "http://localhost:3001", // allow to server to accept request from different origin
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true // allow session cookie from browser to pass through
