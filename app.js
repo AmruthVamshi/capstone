@@ -29,10 +29,10 @@ require('./config/passport.setup');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use('/api',require('./routes'));
+//app.use('/api',require('./routes'));
 app.use(cookieSession({
     name: 'donor-session',
-    keys: ['key1', 'key2']
+    keys: ['key1']
 }));
 
 // Initializes passport and passport sessions

@@ -1,4 +1,5 @@
 const donnie = require("../controllers/donnie.controller.js");
+const donnieVerify = require('../middleware/verifyJwtToken');
 var Router = require("express").Router();
 
 //create a donnie
@@ -8,15 +9,15 @@ var Router = require("express").Router();
 Router.get("/", donnie.findAll);
 
 // Retrieve a single donnie with id
-Router.get("/:id", donnie.findOne);
+Router.get("/myprofile",donnieVerify.verifyToken,donnie.findOne);
   
 // Update a Tutorial with id
-Router.put("/:id", donnie.update);
+Router.patch("/",donnieVerify.verifyToken,donnie.update);
   
 // Delete a Tutorial with id
-Router.delete("/:id", donnie.delete);
+Router.delete("/",donnieVerify.verifyToken,donnie.delete);
   
 //delete all donnies
-Router.delete("/", donnie.deleteAll);
+//Router.delete("/", donnie.deleteAll);
   
 module.exports = Router;

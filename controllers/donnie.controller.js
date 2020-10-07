@@ -1,4 +1,5 @@
-const {Donnie} = require('../models');
+const { Donnie,Sequelize} = require('../models');
+const Op = Sequelize.Op;
 // Retrieve all donnies from the database.
 
     exports.findAll = (req, res) => {
@@ -21,7 +22,7 @@ const {Donnie} = require('../models');
 
 // Find a single donnie with an id
 exports.findOne = (req, res) => {
-    const id = req.params.id;
+    const id = req.donnie.id;
 
     Donnie.findByPk(id)
       .then(data => {
@@ -32,15 +33,13 @@ exports.findOne = (req, res) => {
           message: "Error retrieving donnie with id=" + id
         });
       });
-    
-  
 };
 
 // Update a donnie by the id in the request
 exports.update = (req, res) => {
-  const id = req.params.id;
+  const id = req.donnie.id;
 
-  donnie.update(req.body, {
+  Donnie.update(req.body, {
     where: { id: id }
   })
     .then(num => {
@@ -65,9 +64,9 @@ exports.update = (req, res) => {
 
 // Delete a donnie with the specified id in the request
 exports.delete = (req, res) => {
-    const id = req.params.id;
+    const id = req.donnie.id;
 
-    donnie.destroy({
+    Donnie.destroy({
       where: { id: id }
     })
       .then(num => {
@@ -91,7 +90,7 @@ exports.delete = (req, res) => {
 
 // Delete all donnies from the database.
 exports.deleteAll = (req, res) => {
-    donnie.destroy({
+    Donnie.destroy({
         where: {},
         truncate: false
       })
