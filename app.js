@@ -41,6 +41,7 @@ app.use(
 	 cookieSession({
     name: "session",
     keys: [process.env.COOKIE_KEY],
+    secure:true,
     sameSite:false,
     maxAge: 24 * 60 * 60 * 100
   })
