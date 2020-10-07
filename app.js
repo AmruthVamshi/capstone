@@ -5,7 +5,8 @@ const express = require('express');
 const cors = require('cors');
 const db = require('./models');
 const passport = require('passport');
-const cookieSession = require('cookie-session')
+const cookieSession = require('cookie-session');
+const cookieParser = require('cookie-parser');
 
 //constants
 const PORT = process.env.PORT || 5000;
@@ -35,10 +36,15 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 //app.use('/api',require('./routes'));
-app.use(cookieSession({
-    name: 'donor-session',
-    keys: ['key1']
-}));
+app.use(
+	 cookieSession({
+    name: "session",
+    keys: [process.env.COOKIE_KEY],
+    maxAge: 24 * 60 * 60 * 100
+  })
+);
+//parse cookies
+app.use(cookieParser());
 
 // Initializes passport and passport sessions
 app.use(passport.initialize());
