@@ -13,8 +13,8 @@ Router.use('/request',require('./donnieRequest.route'));
 
 Router.use('/response',donorVerify,require('./donorResponse.route'));
 
-Router.get('/sucess',async (req,res)=>{
-	res.status(200).json({
+Router.get('/sucess',donorVerify,async (req,res)=>{
+	res.status(200).send({
 		message:'logged in sucessfully',
 		user:req.user,
 		cookies:req.cookies
