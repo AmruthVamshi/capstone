@@ -4,26 +4,15 @@ const verifySignUp = require('../middleware/verifySignup');
 const authJwt = require('../middleware/verifyJwtToken');
 const donnieAuthController = require('../controllers/donnieAuth.controller.js');
 const donorLoginVerify = require('../middleware/donorLoginVerify');
+require('dotenv').config();
 
 Router.get('/google',passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-Router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/failed' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    console.log(req.user)
-    res.redirect('/sucess');
-  }
-);
+Router.get('/google/callback', passport.authenticate('google',{successRedirect: process.env.CLIENT_HOME_PAGE_URL,failureRedirect: '/failed' }));
 
 Router.get('/facebook',passport.authenticate('facebook'));
 
-Router.get('/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    console.log(req.user)
-    res.redirect('/sucess');
-  }
-);
+Router.get('/facebook/callback', passport.authenticate('facebook', {successRedirect: process.env.CLIENT_HOME_PAGE_URL,failureRedirect: '/login' }));
 
 Router.get('/logout', (req, res) => {
     req.session = null;
