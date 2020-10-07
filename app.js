@@ -26,7 +26,12 @@ const app = express();
 require('./config/passport.setup');
 
 //middleware
-app.use(cors());
+app.use(
+	cors({
+    origin: "http://localhost:3001", // allow to server to accept request from different origin
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true // allow session cookie from browser to pass through
+ }));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 //app.use('/api',require('./routes'));
