@@ -32,7 +32,7 @@ passport.deserializeUser(async function(id, done) {
 passport.use(new GoogleStrategy({
     clientID: process.env.clientID,
     clientSecret: process.env.clientSecret,
-    callbackURL: "http://capstonebackend0.herokuapp.com/auth/google/callback"
+    callbackURL: "/auth/google/callback"
   },
   async function(accessToken, refreshToken, profile, done) {
     /*
