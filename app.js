@@ -39,17 +39,15 @@ app.use(express.urlencoded({extended:true}));
 //app.use('/api',require('./routes'));
 app.use(
 	 cookieSession({
-    name: "session",
-    keys: [process.env.COOKIE_KEY],
-    secure:true,
-    sameSite:false,
-    maxAge: 24 * 60 * 60 * 100
+    secret: process.env.COOKIE_KEY,
+    resave:true,
+    saveUninitialized:true
   })
 );
 //parse cookies
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_KEY));
 
-// Initializes passport and passport sessions
+//Initializes passport and passport sessions
 app.use(passport.initialize());
 app.use(passport.session());
 
