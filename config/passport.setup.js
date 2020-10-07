@@ -51,7 +51,7 @@ passport.use(new GoogleStrategy({
     })
     return done(null, donor);
    } catch(e) {
-     console.log(e);
+     console.log(e)
      return done(e, null);     
    }
   }
