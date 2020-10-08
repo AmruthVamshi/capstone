@@ -7,6 +7,7 @@ const db = require('./models');
 const passport = require('passport');
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 
 //constants
 const PORT = process.env.PORT || 3001;
@@ -23,6 +24,14 @@ const app = express();
 		console.log(e);
 	}
 })();
+
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, '../client/build')))
+
+// AFTER defining routes: Anything that doesn't match what's above, send back index.html; (the beginning slash ('/') in the string is important!)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/../client/build/index.html'))
+})
 
 require('./config/passport.setup');
 
