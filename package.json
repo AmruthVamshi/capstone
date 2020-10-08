@@ -6,7 +6,7 @@
   "scripts": {
     "start": "concurrently \"node app\" \"npm run client\"",
     "devserver": "nodemon app",
-    "client": "cd client && npm start",
+    "client": "cd client && npm install && npm start",
     "dev": "concurrently \"nodemon app\" \"npm run client\""
   },
   "repository": {
