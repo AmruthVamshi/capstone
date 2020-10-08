@@ -24,7 +24,7 @@ function Login() {
       .catch((error) => alert(error.message));
   };*/
   useEffect(() => {
-    fetch(`http://localhost:3001/sucess`, {
+    fetch(`https://capstonebackend0.herokuapp.com/sucess`, {
       method: "GET",
       credentials: 'include',
       headers: {
@@ -52,7 +52,7 @@ function Login() {
   const handleSignInClick = () => {
     // Authenticate using via passport api in the backend
     // Open Twitter login page
-    window.open(`http://localhost:3001/auth/google`, `_self`);
+    window.open(`https://capstonebackend0.herokuapp.com/auth/google`, `_self`);
   };
 
   return (
