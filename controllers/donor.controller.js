@@ -22,7 +22,6 @@ const { Donor } = require('../models');
 
 // Find a single Donor with an id
 exports.findOne = (req, res) => {
-
     const id = req.user.id;
     Donor.findByPk(id)
       .then(data => {
