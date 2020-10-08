@@ -4,7 +4,7 @@
   "description": "A donation website for students",
   "main": "app.js",
   "scripts": {
-    "start": "node app",
+    "start": "concurrently \"node app\" \"npm run client\"",
     "devserver": "nodemon app",
     "client": "cd client && npm start",
     "dev": "concurrently \"nodemon app\" \"npm run client\""
