@@ -43,9 +43,12 @@ exports.findOne = (req, res) => {
     })
     .then(num => {
       if (num == 1) {
-        res.send({
-          message: "Donor was updated successfully."
-        });
+        Donor.findByPk(id).then(don=>{
+          res.send({
+            message: "Donor was updated successfully.",
+            body:don
+          });
+        })
       } else {
         res.send({
           message: `Cannot update Donor with id=${id}. Maybe Donor was not found or req.body is empty!`

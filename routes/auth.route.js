@@ -17,7 +17,9 @@ Router.get('/facebook/callback', passport.authenticate('facebook', {successRedir
 Router.get('/logout', (req, res) => {
     req.session = null;
     req.logout();
-    res.send('You are logged out!');
+    res.status(200).json({
+    	message:'sucesfully logged out!'
+    });
 })
 
 Router.get('/protected',donorLoginVerify,(req,res)=>{

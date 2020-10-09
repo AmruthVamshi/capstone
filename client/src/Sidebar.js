@@ -13,7 +13,11 @@ import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
 import { useStateValue } from "./StateProvider";
 
 function Sidebar() {
-  const [{ user }, dispatch] = useStateValue();
+  const [{ donor,headmaster }, dispatch] = useStateValue();
+  let user;
+  if(donor) user=donor;
+  else user=headmaster;
+
   return (
     <div className="sidebar">
       <SidebarRow src={user.photoURL} title={user.displayName} />

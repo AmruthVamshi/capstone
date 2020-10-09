@@ -5,35 +5,41 @@ const { DonorResponse,Sequelize,Donor,DonnieRequest } = require('../models');
 const Op = Sequelize.Op;
 
 exports.create = async (req,res)=>{
-
+	let image_data;
 	const {requestID} = req.params;
 	//convert uploaded image to base64 
-	const image_data = {
-		image_name:req.file.originalname,
-		size:req.file.size,
-		b64: new Buffer(fs.readFileSync(req.file.path)).toString('base64')
-	};
-	fs.unlinkSync(req.file.path);
+	if(req.file){
+		const image_data = {
+			image_name:req.file.originalname,
+			size:req.file.size,
+			b64: new Buffer(fs.readFileSync(req.file.path)).toString('base64')
+		};
+		fs.unlinkSync(req.file.path);
+	}
 
 	const {itemName,itemDescription} = req.body;
 
 	try {
-
-		var data = qs.stringify({'image':image_data.b64});
-		const result = await axios({
-			method: 'post',
-			url: 'https://api.imgur.com/3/image/',
-			headers: { 
-				'Authorization': 'Client-ID 4cbcac83b80d2ae', 
-				'Content-Type': 'application/x-www-form-urlencoded'
-			},
-			data : data
-		});
+		let result;
+		if(image_data){
+			var data = qs.stringify({'image':image_data.b64});
+			const result = await axios({
+				method: 'post',
+				url: 'https://api.imgur.com/3/image/',
+				headers: { 
+					'Authorization': 'Client-ID 4cbcac83b80d2ae', 
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data : data
+			});
+		}
+		let resultImage;
+		if(result) resultImage=result.data.data.link;
 
 		let newDonorResponse = await DonorResponse.create({
 			itemName,
 			itemDescription,
-			picture:result.data.data.link,
+			picture:resultImage,
 		})
 
 		newDonorResponse.donorResponseID=newDonorResponse.id;

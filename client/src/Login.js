@@ -6,23 +6,17 @@ import { auth, provider } from "./firebase";
 import { actionTypes } from "./reducer";
 import { useStateValue } from "./StateProvider";
 import { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
 import axios from 'axios';
+import {Modal} from 'react-bootstrap';
+import HeadmasterLoginModel from './headmasterLoginModel';
+import HeadmasterRegisterModel from './HeadmasterRegisterModel';
 
 function Login() {
   const [state, dispatch] = useStateValue();
-  /*
-  const signIn = () => {
-    auth
-      .signInWithPopup(provider)
-      .then((result) => {
-        dispatch({
-          type: actionTypes.SET_USER,
-          user: result.user,
-        });
-        //console.log(result);
-      })
-      .catch((error) => alert(error.message));
-  };*/
+  const [modalShow1, setModalShow1] = useState(false);
+  const [modalShow2, setModalShow2] = useState(false);
+
   useEffect(() => {
     fetch(`https://capstonebackend0.herokuapp.com/sucess`, {
       method: "GET",
@@ -35,13 +29,13 @@ function Login() {
     })
       .then(response => {
         if (response.status === 200) return response.json();
-        throw new Error("failed to authenticate user");
+        throw new Error("failed to authenticate donor");
       })
       .then(responseJson => {
         console.log(responseJson.user);
         dispatch({
-          type: actionTypes.SET_USER,
-          user: responseJson.user,
+          type: actionTypes.SET_DONOR,
+          donor: responseJson.user,
         });
       })
       .catch(error => {
@@ -49,10 +43,14 @@ function Login() {
       });
   }, []);
 
-  const handleSignInClick = () => {
-    // Authenticate using via passport api in the backend
-    // Open Twitter login page
+  if(state.donor) return <Redirect to='/'/>
+
+  const handleSignInClickGoogle = () => {
     window.open(`https://capstonebackend0.herokuapp.com/auth/google`, `_self`);
+  };
+
+  const handleSignInClickFacebook = () => {
+    window.open(`https://capstonebackend0.herokuapp.com/auth/facebook`, `_self`);
   };
 
   return (
@@ -61,12 +59,28 @@ function Login() {
         <img src={Helpinghands} alt="" />
         <h2 id="t1">Welcome to Help a Student</h2>
       </div>
-      <Button type="submit">Sign In as Donor</Button>
-      <Button type="submit" onClick={handleSignInClick}>
-        {" "}
-        Sign In as Head Master
+      <Button type="submit" onClick={handleSignInClickGoogle} >Sign In as Donor via Google</Button>
+      <Button type="submit" onClick={handleSignInClickFacebook} >Sign In as Donor via Facebook</Button>
+      
+      <Button variant="primary" onClick={() => setModalShow1(true)}>
+        Sign in as Headmaster
       </Button>
-    </div>
+
+      <Button variant="primary" onClick={() => setModalShow2(true)}>
+        Register as Headmaster
+      </Button>
+
+      <HeadmasterLoginModel
+        show={modalShow1}
+        onHide={() => setModalShow1(false)}
+      />
+
+      <HeadmasterRegisterModel
+        show={modalShow2}
+        onHide={() => setModalShow2(false)}
+      />
+
+      </div>
   );
 }
 

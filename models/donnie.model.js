@@ -13,6 +13,10 @@ module.exports = (sequelize, Sequelize) => {
       },
       address:{
         type:Sequelize.TEXT
+      },
+      schoolID:{
+        type: Sequelize.STRING,
+        required:true
       }
     });
     return Donnie;

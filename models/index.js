@@ -21,7 +21,7 @@ const sequelize = new Sequelize(process.env.HEROKU_URL, {
       protocol: 'postgres',
       port:     5432
     })
-    
+
 //importing all models
 const Donor = require('./donor.model')(sequelize,Sequelize);
 const Donnie = require('./donnie.model')(sequelize,Sequelize);

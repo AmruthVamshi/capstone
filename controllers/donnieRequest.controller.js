@@ -6,34 +6,42 @@ const Op = Sequelize.Op;
 
 exports.create = async (req,res)=>{
 	//convert uploaded image to base64
-	const image_data = {
-		image_name:req.file.originalname,
-		size:req.file.size,
-		b64: new Buffer(fs.readFileSync(req.file.path)).toString('base64')
-	};
-	fs.unlinkSync(req.file.path);
+	let image_data;
+
+	if(req.file){
+		image_data = {
+			image_name:req.file.originalname,
+			size:req.file.size,
+			b64: new Buffer(fs.readFileSync(req.file.path)).toString('base64')
+		};
+		fs.unlinkSync(req.file.path);
+	}
 
 	const {requestDescription,childDescription,schoolName,schoolLocation} = req.body;
 
 	try {
-
-		var data = qs.stringify({'image':image_data.b64});
-		const result = await axios({
-			method: 'post',
-			url: 'https://api.imgur.com/3/image/',
-			headers: { 
-				'Authorization': 'Client-ID 4cbcac83b80d2ae', 
-				'Content-Type': 'application/x-www-form-urlencoded'
-			},
-			data : data
-		});
+		let result;
+		if(image_data){
+			var data = qs.stringify({'image':image_data.b64});
+			result = await axios({
+				method: 'post',
+				url: 'https://api.imgur.com/3/image/',
+				headers: { 
+					'Authorization': 'Client-ID 4cbcac83b80d2ae', 
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data : data
+			});
+		}
+		let resultImage;
+		if(result) resultImage=result.data.data.link;
 
 		let newDonnieRequest = await DonnieRequest.create({
 			requestDescription,
 			childDescription,
 			schoolName,
 			schoolLocation,
-			picture:result.data.data.link,
+			picture:resultImage,
 			donnieID:req.donnie.id
 		})
 
@@ -57,10 +65,14 @@ exports.create = async (req,res)=>{
 
 exports.find = async (req,res)=>{
 	const search = req.query.search;
+	const id = req.query.id;
     const condition = search ? { requestDescription: { [Op.iLike]: `%${search}%` } } : null;
+    const condition1 = id ? {donnieID:id}:null;
 
     try {
-    	let response = await DonnieRequest.findAll({where:condition,include: ['donnie','donorResponse']});
+    	let response = await DonnieRequest.findAll({where:!condition?condition1:condition,include: ['donnie','donorResponse']});
+    	response=response.filter(resp=>resp.donorResponse===null);
+    	response.reverse();
     	res.status(200).json({
     		message:"all requests by donnies",
     		body:response
