@@ -9,15 +9,16 @@ exports.signup = (req, res) => {
   //validation
   let err = [];
   if(req.body.username<7 && req.body.password<7) err.push('usename and password should be greater than 7');
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  if(!re.test(String(req.body.email).toLowerCase())) err.push('enter a valid email');
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(!re.test(String(req.body.email).toLowerCase())) err.push('enter a valid email');
   if(err.length) res.status(500).send({err:err});
 
   // Save User to Database
   Donnie.create({
     username: req.body.username,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
+    password: bcrypt.hashSync(req.body.password, 8),
+    schoolID:req.body.schoolID
   })
   .then(donnie => {
     res.send(`User registered successfully as ${donnie.username}!`);
@@ -36,12 +37,12 @@ exports.signin = (req, res) => {
     }
   }).then(donnie => {
     if (!donnie) {
-      return res.status(404).send('User Not Found.');
+      return res.status(200).send({ auth: false, accessToken: null, reason: "user not found!" });
     }
  
     var passwordIsValid = bcrypt.compareSync(req.body.password, donnie.password);
     if (!passwordIsValid) {
-      return res.status(401).send({ auth: false, accessToken: null, reason: "Invalid Password!" });
+      return res.status(200).send({ auth: false, accessToken: null, reason: "Invalid Password!" });
     }
     
     var token = jwt.sign({ id: donnie.id,username:donnie.username }, process.env.jwtSecret, {
