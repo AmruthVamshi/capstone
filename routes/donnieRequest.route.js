@@ -19,6 +19,7 @@ const fileFilter = (req,file,cb)=>{
 const upload=multer({storage,fileFilter});
 
 Router.get('/',controller.find);
+Router.get('/responses',donnieVerify.verifyToken,controller.findResponses);
 Router.post('/',donnieVerify.verifyToken,upload.single('image'),controller.create);
 Router.patch('/:id',donnieVerify.verifyToken,controller.update);
 Router.delete('/:id',donnieVerify.verifyToken,controller.delete);

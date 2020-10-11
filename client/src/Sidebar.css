@@ -1,4 +1,15 @@
-.sidebar {
-  padding: 25px 10px;
-  flex: 0.33;
+.sidebar{
+	width:19%;
+}
+.filterButton{
+	border: 0px;
+	border-radius: 0px;
+	margin:none;
+	background-color: transparent;
+}
+.filterButton:focus{
+	border: 0px;
+	border-radius: 0px;
+	margin:none;
+	background-color: transparent;
 }

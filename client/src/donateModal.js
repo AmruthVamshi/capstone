@@ -1,19 +1,14 @@
 import React from "react";
 import "./Login.css";
-import Helpinghands from "./Helpinghands.png";
 import { Button } from "@material-ui/core";
-import { Avatar, Input } from "@material-ui/core";
-import { auth, provider } from "./firebase";
+import { Input } from "@material-ui/core";
 import { actionTypes } from "./reducer";
 import { useStateValue } from "./StateProvider";
-import { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { useState } from "react";
 import axios from 'axios';
 import qs from 'qs';
 import {Modal} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Cookies from 'universal-cookie';
-import jwt from 'jsonwebtoken';
 
 function DonateModel(props) {
   const [state, dispatch] = useStateValue();
@@ -23,7 +18,17 @@ function DonateModel(props) {
   const [itemDescription, setItemDescription] = useState("");
 
   const donate = ()=>{
-  	if(address){
+  	let err=[];
+  	if(!state.donor.address){
+  		if(address==='') err.push('enter pickup address with your phone number!.')
+  	} 
+  	if(itemName==='') err.push('enter item name!');
+  	if(itemDescription==='') err.push('enter itemDescription');
+  	if(err.length){
+  		err.forEach(e=>alert(e));
+  		return;
+  	} 
+  	if(address!==''){
   		var data = qs.stringify({
 		 'address': address 
 		});
@@ -50,29 +55,24 @@ function DonateModel(props) {
 		  console.log(error);
 		});
   	}
-
+  	var myHeaders = new Headers();
+  	myHeaders.append("Access-Control-Allow-Credentials",true)
   	var formdata = new FormData();
 	formdata.append("itemName", itemName);
 	formdata.append("itemDescription", itemDescription);
-	formdata.append("image", imageUrl);
+	formdata.append("picture", imageUrl);
 
-	console.log(imageUrl)
-	console.log(props.id)
 
 	var requestOptions = {
 	  method: 'POST',
 	  body: formdata,
 	  redirect: 'follow',
 	  credentials: 'include',
-	  headers: { 
-	  	Accept: "application/x-www-form-urlencoded",
-	    'Content-Type': 'application/x-www-form-urlencoded',
-	    "Access-Control-Allow-Credentials": true
-	  }
+	  headers: myHeaders
 	};
 	fetch(`https://capstonebackend0.herokuapp.com/response/${props.id}`, requestOptions)
 	  .then(response => response.text())
-	  .then(result => {console.log(result);props.onHide();window.location.reload()})
+	  .then(result => {props.onHide();window.location.reload()})
 	  .catch(error => console.log('error', error));
 
   }
@@ -104,23 +104,25 @@ function DonateModel(props) {
       			style={{width:"400px",height:"50px"}}
       			type='textarea'
       			row="5"
-      			placeholder='enter your address'
+      			placeholder='enter your address with your mobile number'
       			onChange={e=>{setAddress(e.target.value)}}
       		/><br/>
       		<input
+      				style={{width:"400px",height:"50px"}}
 		            className="messageSender__input3"
 		            type="text"
 		            placeholder=" item Name"
 		            value={itemName}
 		            onChange={(e) => setItemName(e.target.value)}
-		          />
+		          /><br/>
 		          <input
+		          	style={{width:"400px",height:"50px"}}
 		            className="messageSender__input4"
 		            type="text"
 		            placeholder="item description"
 		            value={itemDescription}
 		            onChange={(e) => setItemDescription(e.target.value)}
-		          />
+		          /><br/>
 		          <Input
 		            className="messageSender__fileSelector"
 		            placeholder="upload image of what you are donating"
@@ -132,19 +134,21 @@ function DonateModel(props) {
       		):(
       		<div>
       			<input
+      				style={{width:"400px",height:"50px"}}
 		            className="messageSender__input3"
 		            type="text"
 		            placeholder=" item Name"
 		            value={itemName}
 		            onChange={(e) => setItemName(e.target.value)}
-		          />
+		          /><br/>
 		          <input
+		          	style={{width:"400px",height:"50px"}}
 		            className="messageSender__input4"
 		            type="text"
 		            placeholder="item description"
 		            value={itemDescription}
 		            onChange={(e) => setItemDescription(e.target.value)}
-		          />
+		          /><br/>
 		          <Input
 		            className="messageSender__fileSelector"
 		            placeholder="upload image of what you are donating"

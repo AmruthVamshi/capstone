@@ -1,7 +1,7 @@
 const fs = require('fs');
 const axios = require('axios');
 let qs = require('qs');
-const {DonnieRequest,Sequelize,Donnie} = require('../models');
+const {DonnieRequest,Sequelize,Donnie,Donor} = require('../models');
 const Op = Sequelize.Op;
 
 exports.create = async (req,res)=>{
@@ -66,13 +66,45 @@ exports.create = async (req,res)=>{
 exports.find = async (req,res)=>{
 	const search = req.query.search;
 	const id = req.query.id;
-    const condition = search ? { requestDescription: { [Op.iLike]: `%${search}%` } } : null;
-    const condition1 = id ? {donnieID:id}:null;
+    let condition = search ? { requestDescription: { [Op.iLike]: `%${search}%` } } : null;
+   	if (id) condition = id ? {donnieID:id}:null;
+    if(search && id) condition = {requestDescription: { [Op.iLike]: `%${search}%` },donnieID:id} 
 
     try {
-    	let response = await DonnieRequest.findAll({where:!condition?condition1:condition,include: ['donnie','donorResponse']});
+    	let response = await DonnieRequest.findAll({where:condition,include: ['donnie','donorResponse']});
     	response=response.filter(resp=>resp.donorResponse===null);
-    	response.reverse();
+    	res.status(200).json({
+    		message:"all requests by donnies 1",
+    		body:response
+    	})
+    } catch(e) {
+    	console.log(e);
+    	res.status(401).json({
+			message:'error while fetching all requests!.',
+			error:e
+		})
+    }
+}
+
+exports.findResponses = async (req,res)=>{
+
+    try {
+    	let response = await DonnieRequest.findAll({where:{donnieID:req.donnie.id},include: ['donorResponse']});
+    	response=response.filter(resp=>resp.donorResponse!==null);
+    	let donors=[]
+    	for(let i=0;i<response.length;i++){
+    		let donor = await Donor.findByPk(response[i].donorResponse.donorID);
+    		donors.push(donor);
+    	}
+    	response=response.map((resp,i)=>{
+    		return{
+    			requestDescription:resp.requestDescription,
+    			time:resp.createdAt,
+    			school:resp.schoolName,
+    			donorResponse:resp.donorResponse,
+    			donor:donors[i]
+    		}
+    	})
     	res.status(200).json({
     		message:"all requests by donnies",
     		body:response

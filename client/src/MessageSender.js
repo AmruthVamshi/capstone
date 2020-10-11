@@ -3,8 +3,6 @@ import "./MessageSender.css";
 import { Avatar, Input } from "@material-ui/core";
 import { useState } from "react";
 import { useStateValue } from "./StateProvider";
-import db from "./firebase";
-import firebase from "firebase";
 import Cookies from 'universal-cookie';
 
 function MessageSender() {

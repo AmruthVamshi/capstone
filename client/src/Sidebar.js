@@ -1,19 +1,16 @@
 import React from "react";
 import SidebarRow from "./SidebarRow";
-import LocalHospitalIcon from "@material-ui/icons/LocalHospital";
-import NoteIcon from "@material-ui/icons/Note";
-import PeopleIcon from "@material-ui/icons/People";
 import SmartphoneIcon from "@material-ui/icons/Smartphone";
 import TvIcon from "@material-ui/icons/Tv";
 import CellWifiIcon from "@material-ui/icons/CellWifi";
-import ChatIcon from "@material-ui/icons/Chat";
 import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
-import StorefrontIcon from "@material-ui/icons/Storefront";
-import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
+import FilterListIcon from '@material-ui/icons/FilterList';
 import { useStateValue } from "./StateProvider";
+import { actionTypes } from "./reducer";
+import './Sidebar.css';
 
 function Sidebar() {
-  const [{ donor,headmaster }, dispatch] = useStateValue();
+  const [{ donor,headmaster,search }, dispatch] = useStateValue();
   let user;
   if(donor) user=donor;
   else user=headmaster;
@@ -21,19 +18,22 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <SidebarRow src={user.photoURL} title={user.displayName} />
-      <SidebarRow
-        Icon={LocalHospitalIcon}
-        title="COVID-19 Information Center"
-      />
-      <SidebarRow Icon={NoteIcon} title="Guildelines for donations" />
-      <SidebarRow Icon={PeopleIcon} title="Headmasters" />
-      <SidebarRow Icon={SmartphoneIcon} title="Smartphones wanted" />
+      <SidebarRow src={user.photoURL} title="Donation Categories" />
+      <button className='filterButton' onClick={()=>{dispatch({type: actionTypes.SET_SEARCH,search:''});}}>
+        <SidebarRow Icon={FilterListIcon} title="All Categories" />
+      </button>
+      <button className='filterButton' onClick={()=>{dispatch({type: actionTypes.SET_SEARCH,search:'phone'});}}>
+        <SidebarRow Icon={SmartphoneIcon} title="Smartphones wanted" />
+      </button>
+      <button className='filterButton' onClick={()=>{dispatch({type: actionTypes.SET_SEARCH,search:'tv'});}}>
       <SidebarRow Icon={TvIcon} title="TVs wanted" />
+      </button>
+      <button className='filterButton' onClick={()=>{dispatch({type: actionTypes.SET_SEARCH,search:'connection'});}}>
       <SidebarRow Icon={CellWifiIcon} title="connections wanted" />
+      </button>
+      <button className='filterButton' onClick={()=>{dispatch({type: actionTypes.SET_SEARCH,search:'girl'});}}>
       <SidebarRow Icon={EmojiPeopleIcon} title="For Girls" />
-      <SidebarRow Icon={ChatIcon} title="Messenges" />
-      <SidebarRow Icon={StorefrontIcon} title="See Amazon" />
-      <SidebarRow Icon={VideoLibraryIcon} title="Learn using the platform" />
+      </button>
     </div>
   );
 }

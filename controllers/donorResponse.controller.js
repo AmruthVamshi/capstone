@@ -68,7 +68,7 @@ exports.create = async (req,res)=>{
 exports.find = async (req,res)=>{
 
     try {
-    	let response = await DonorResponse.findAll({include: ['donnieRequest']});
+    	let response = await DonorResponse.findAll({where:{donorId:req.user.id},include: ['donnieRequest','donor']});
     	res.status(200).json({
     		message:"all of your donations!",
     		body:response

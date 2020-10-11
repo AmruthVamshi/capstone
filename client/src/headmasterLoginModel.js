@@ -1,12 +1,9 @@
 import React from "react";
 import "./Login.css";
-import Helpinghands from "./Helpinghands.png";
 import { Button } from "@material-ui/core";
-import { auth, provider } from "./firebase";
 import { actionTypes } from "./reducer";
 import { useStateValue } from "./StateProvider";
-import { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { useState } from "react";
 import axios from 'axios';
 import qs from 'qs';
 import {Modal} from 'react-bootstrap'
@@ -37,7 +34,7 @@ function HeadmasterLoginModel(props) {
 	axios(config)
 	.then(function (response) {
 		if(response.status===200){
-			if(response.data.auth==true){
+			if(response.data.auth===true){
 				cookies.set('logintoken',response.data.accessToken,{path:'/'});
 				jwt.verify(response.data.accessToken, 'helpastudentsecret', (err, decoded) => {
 				    if (err) alert(err);
