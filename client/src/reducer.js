@@ -1,10 +1,12 @@
 export const initialState = {
+  search:'',
   user: null,
 };
 export const actionTypes = {
   SET_DONOR: "SET_DONOR",
   SET_HEADMASTER: "SET_HEADMASTER",
-  LOGOUT:"LOGOUT"
+  LOGOUT:"LOGOUT",
+  SET_SEARCH:"SET_SEARCH"
 };
 
 const reducer = (state, action) => {
@@ -25,6 +27,11 @@ const reducer = (state, action) => {
         ...state,
         donor:null,
         headmaster:null
+      }
+    case actionTypes.SET_SEARCH:
+      return{
+        ...state,
+        search:action.search
       }    
     default:
       return state;

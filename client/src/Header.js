@@ -1,4 +1,4 @@
-import React,{Fragment} from "react";
+import React,{useState} from "react";
 import "./Header.css";
 import Helpinghands from "./Helpinghands.png";
 import SearchIcon from "@material-ui/icons/Search";
@@ -7,7 +7,6 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AddIcon from "@material-ui/icons/Add";
 import { Avatar, IconButton } from "@material-ui/core";
 import ForumIcon from "@material-ui/icons/Forum";
-import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useStateValue } from "./StateProvider";
 import { actionTypes } from "./reducer";
@@ -15,7 +14,9 @@ import { Redirect } from "react-router-dom";
 import Cookies from 'universal-cookie';
 
 function Header(props) {
-  const [{ donor,headmaster }, dispatch] = useStateValue();
+  const [{ donor,headmaster,search }, dispatch] = useStateValue();
+  const [searchValue,setSearchValue] = useState('');
+
   let user;
   if(donor) user=donor;
   else user=headmaster;
@@ -57,13 +58,25 @@ function Header(props) {
       }
   }
 
+  const onSearch = (e)=>{
+    if(e.key==='Enter'){
+      dispatch({type: actionTypes.SET_SEARCH,search:searchValue})
+    }
+  }
+
   return (
     <div className="header">
       <div className="header__left">
         <img src={Helpinghands} alt="" />
         <div className="header__input">
           <SearchIcon />
-          <input placeholder="Search Help a student" type="text" />
+          <input 
+            placeholder="Search Help a student" 
+            type="text"
+            value={searchValue} 
+            onKeyDown={onSearch}
+            onChange={e=>{setSearchValue(e.target.value)}}
+          />
         </div>
       </div>
       <div className="header__middle">

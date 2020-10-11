@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 import Feed from "./Feed";
 import Login from "./Login";
 import { useStateValue } from "./StateProvider";
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import jwt from 'jsonwebtoken';
 import { actionTypes } from "./reducer";

@@ -2,13 +2,10 @@ import React from "react";
 import "./Login.css";
 import Helpinghands from "./Helpinghands.png";
 import { Button } from "@material-ui/core";
-import { auth, provider } from "./firebase";
 import { actionTypes } from "./reducer";
 import { useStateValue } from "./StateProvider";
 import { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import axios from 'axios';
-import {Modal} from 'react-bootstrap';
 import HeadmasterLoginModel from './headmasterLoginModel';
 import HeadmasterRegisterModel from './HeadmasterRegisterModel';
 

@@ -15,7 +15,7 @@ const fileFilter = (req,file,cb)=>{
 const upload=multer({storage,fileFilter});
 
 Router.get('/',controller.find);
-Router.post('/:requestID',upload.single('image'),controller.create);
+Router.post('/:requestID',upload.single("picture"),controller.create);
 
 
 module.exports = Router;

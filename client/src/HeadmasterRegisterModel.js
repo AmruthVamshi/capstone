@@ -1,11 +1,7 @@
 import React from "react";
 import "./Login.css";
-import Helpinghands from "./Helpinghands.png";
 import { Button } from "@material-ui/core";
-import { actionTypes } from "./reducer";
-import { useStateValue } from "./StateProvider";
-import { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { useState } from "react";
 import axios from 'axios';
 import qs from 'qs';
 import {Modal} from 'react-bootstrap'
@@ -19,8 +15,6 @@ function HeadmasterRegisterModel(props) {
   const [password,setPassword] = useState('');
   const [rePassword,setRePassword] = useState('');
   const [schoolID,setSchoolID] = useState('');
-  const [errorMsgs,setErrorMsgs] = useState([]);
-  const [sucess,setSucess] = useState('');
 
   const handleRegister = () => {
     let err=[];

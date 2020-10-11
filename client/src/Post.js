@@ -2,16 +2,14 @@ import React from "react";
 import "./Post.css";
 import { Avatar } from "@material-ui/core";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
-import NearMeIcon from "@material-ui/icons/NearMe";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { Button } from "@material-ui/core";
 import Cookies from 'universal-cookie';
 import axios from 'axios';
-import {Modal} from 'react-bootstrap';
 import DonateModal from './donateModal';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-function Post({id, profilePic, requestMessage, timestamp, image, username,schoolLocation,childMessage,schoolName,headmaster}) {
+function Post({id, profilePic, requestMessage, timestamp, image, username,schoolLocation,childMessage,schoolName,headmaster,myDonations,responses}) {
   const [modalShowDonate, setModalShowDonate] = useState(false);
   const deletePost = ()=>{
     const cookies = new Cookies();
@@ -33,6 +31,54 @@ function Post({id, profilePic, requestMessage, timestamp, image, username,school
     });
   }
 
+  if(myDonations){
+    return (
+        <div className="post">
+          <div className="post__top">
+          <Avatar src={myDonations.profilePic} className="post__avatar" />
+          <div className="post__topInfo">
+            <h3>Donated to : {myDonations.school}</h3>
+            {/* It would first parse the time into int as seconds and then to UTC time */}
+            <p>{new Date(myDonations.time.toString()).toString()}</p>
+          </div>
+        </div>
+        <div className="post__bottom">
+          <p style={{fontSize:"20px"}}> donated Item : {myDonations.itemName}</p>
+        </div>
+        <div className="post__bottom">
+          <p style={{fontSize:"20px"}}> Item condition : {myDonations.itemDescription}</p>
+        </div>
+        <div className="post__bottom">
+          <p style={{fontSize:"20px"}}> pickup address : {myDonations.address}</p>
+        </div>
+        </div>
+      )
+  }
+  console.log(responses)
+  if(responses){
+    return (
+      <div className="post">
+          <div className="post__top">
+          <Avatar src={responses.profilePic} className="post__avatar" />
+          <div className="post__topInfo">
+            <h3>{responses.donorName} volunteered to donate {responses.itemName}</h3>
+            {/* It would first parse the time into int as seconds and then to UTC time */}
+            <p>{new Date(responses.time.toString()).toString()}</p>
+          </div>
+        </div>
+        <div className="post__bottom">
+          <p style={{fontSize:"20px"}}> Your request : {responses.requestDescription}</p>
+        </div>
+        <div className="post__bottom">
+          <p style={{fontSize:"20px"}}> Item condition : {responses.itemDescription}</p>
+        </div>
+        <div className="post__bottom">
+          <p style={{fontSize:"20px"}}> contact info : {responses.address}</p>
+        </div>
+        </div>
+    )
+  }
+
   return (
     <div className="post" key={id}>
       <div className="post__top">
@@ -50,7 +96,7 @@ function Post({id, profilePic, requestMessage, timestamp, image, username,school
         <h5>You are donating to :</h5><p>{childMessage}</p>
       </div>
       <div className="post__bottom">
-        <h5>School Name :</h5><p>{schoolName}</p>
+        <p style={{fontWeight:'bold',fontSize:'18px'}}>School Name : {schoolName}</p>
       </div>
       <div className="post__image">
         <img src={image} alt="" />
