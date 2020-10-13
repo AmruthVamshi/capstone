@@ -14,8 +14,8 @@ const sequelize = new Sequelize(dbConfig.DB,dbConfig.USER,dbConfig.PASSWORD,{
 		idle:dbConfig.pool.acquire
 	}
 });
-*/
 
+*/
 const sequelize = new Sequelize(process.env.HEROKU_URL, {
       dialect:  'postgres',
       protocol: 'postgres',

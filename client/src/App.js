@@ -32,7 +32,10 @@ function Home(){
     let token = cookies.get('logintoken');
     if(token){
       jwt.verify(token, 'helpastudentsecret', (err, decoded) => {
-            if (err) alert(err);
+            if (err){
+              cookies.remove('logintoken');
+              alert(err);
+            }
             dispatch({
                 type: actionTypes.SET_HEADMASTER,
                 headmaster: decoded,
