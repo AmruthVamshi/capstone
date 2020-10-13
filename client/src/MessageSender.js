@@ -4,6 +4,7 @@ import { Avatar, Input } from "@material-ui/core";
 import { useState } from "react";
 import { useStateValue } from "./StateProvider";
 import Cookies from 'universal-cookie';
+import { Button } from "@material-ui/core";
 
 function MessageSender() {
   //const [{ headmaster }, dispatch] = useStateValue();
@@ -15,8 +16,10 @@ function MessageSender() {
   const [{ headmaster }, dispatch] = useStateValue();
   const [input, setInput] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [message,setMessage] = useState("");
 
   const handleSubmit = (e) => {
+    if(input==""||input2==''||input3==''||input4=='') {alert('please fill all the details!');return;}
     const cookies = new Cookies();
     e.preventDefault();
 
@@ -39,7 +42,7 @@ function MessageSender() {
 
     fetch("https://capstonebackend0.herokuapp.com/request", requestOptions)
       .then(response => response.json())
-      .then(result => {window.location.reload();})
+      .then(result => {alert('Your request is registered!');window.location.reload();})
       .catch(error => console.log('error', error));
 
 
@@ -101,9 +104,9 @@ function MessageSender() {
             onChange={(e) => setImageUrl(e.target.value)}
             placeholder="image URL (Ootional)"
           />*/}
-          <button onClick={handleSubmit} type="submit">
+          <Button onClick={handleSubmit} type="submit">
             Submit
-          </button>
+          </Button>
         </form>
       </div>
       <div className="messageSender__bottom"></div>

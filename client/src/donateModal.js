@@ -70,11 +70,14 @@ function DonateModel(props) {
 	  credentials: 'include',
 	  headers: myHeaders
 	};
-	fetch(`https://capstonebackend0.herokuapp.com/response/${props.id}`, requestOptions)
+	fetch(`http://localhost:3001/response/${props.id}`, requestOptions)
 	  .then(response => response.text())
-	  .then(result => {props.onHide();window.location.reload()})
+	  .then(result => {
+	  	props.onHide();
+	  	alert("Thank you! for your donation. You have helped a child with his/her education!");
+	  	window.location.reload()
+	  })
 	  .catch(error => console.log('error', error));
-
   }
 
   const handleChange = (e) => {
