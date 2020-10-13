@@ -70,7 +70,7 @@ function DonateModel(props) {
 	  credentials: 'include',
 	  headers: myHeaders
 	};
-	fetch(`http://localhost:3001/response/${props.id}`, requestOptions)
+	fetch(`https://capstonebackend0.herokuapp.com/response/${props.id}`, requestOptions)
 	  .then(response => response.text())
 	  .then(result => {
 	  	props.onHide();
