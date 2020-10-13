@@ -8,6 +8,7 @@ import Cookies from 'universal-cookie';
 import axios from 'axios';
 import DonateModal from './donateModal';
 import { useState } from "react";
+import swal from 'sweetalert';
 
 function Post({id, profilePic, requestMessage, timestamp, image, username,schoolLocation,childMessage,schoolName,headmaster,myDonations,responses}) {
   const [modalShowDonate, setModalShowDonate] = useState(false);
@@ -27,7 +28,7 @@ function Post({id, profilePic, requestMessage, timestamp, image, username,school
     })
     .catch(function (error) {
       console.log(error);
-      alert("couldn't delete your post!.");
+      swal("couldn't delete your post!.",'','error');
     });
   }
 

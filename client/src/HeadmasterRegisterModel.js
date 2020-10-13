@@ -7,6 +7,7 @@ import qs from 'qs';
 import {Modal} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './HeadmasterRegisterModel.css';
+import swal from 'sweetalert';
 
 
 function HeadmasterRegisterModel(props) {
@@ -44,7 +45,7 @@ function HeadmasterRegisterModel(props) {
       axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
-        alert(JSON.stringify(response.data));
+        swal(JSON.stringify(response.data),'','success');
         props.onHide();
       })
       .catch(function (error) {
@@ -52,7 +53,7 @@ function HeadmasterRegisterModel(props) {
       });
     }else{
       err.forEach( function(element, index) {
-        alert(element);
+        swal(element,'','error');
       });
       err=[];
     }
