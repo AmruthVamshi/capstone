@@ -9,7 +9,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import jwt from 'jsonwebtoken';
 import { actionTypes } from "./reducer";
-
+import swal from 'sweetalert';
 
 function App() {
   return (
@@ -34,7 +34,7 @@ function Home(){
       jwt.verify(token, 'helpastudentsecret', (err, decoded) => {
             if (err){
               cookies.remove('logintoken');
-              alert(err);
+              swal(err,"",'error');
             }
             dispatch({
                 type: actionTypes.SET_HEADMASTER,

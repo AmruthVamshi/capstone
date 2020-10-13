@@ -9,6 +9,7 @@ import axios from 'axios';
 import qs from 'qs';
 import {Modal} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import swal from 'sweetalert';
 
 function DonateModel(props) {
   const [state, dispatch] = useStateValue();
@@ -25,7 +26,7 @@ function DonateModel(props) {
   	if(itemName==='') err.push('enter item name!');
   	if(itemDescription==='') err.push('enter itemDescription');
   	if(err.length){
-  		err.forEach(e=>alert(e));
+  		err.forEach(e=>swal(e,"","error"));
   		return;
   	} 
   	if(address!==''){
@@ -74,8 +75,8 @@ function DonateModel(props) {
 	  .then(response => response.text())
 	  .then(result => {
 	  	props.onHide();
-	  	alert("Thank you! for your donation. You have helped a child with his/her education!");
-	  	window.location.reload()
+	  	swal("Thank you! for your donation. You have helped a child with his/her education!",'','success');
+	  	setTimeout(()=>{window.location.reload();},2000);
 	  })
 	  .catch(error => console.log('error', error));
   }

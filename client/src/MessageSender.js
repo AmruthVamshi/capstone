@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useStateValue } from "./StateProvider";
 import Cookies from 'universal-cookie';
 import { Button } from "@material-ui/core";
+import swal from 'sweetalert';
 
 function MessageSender() {
   //const [{ headmaster }, dispatch] = useStateValue();
@@ -19,7 +20,7 @@ function MessageSender() {
   const [message,setMessage] = useState("");
 
   const handleSubmit = (e) => {
-    if(input==""||input2==''||input3==''||input4=='') {alert('please fill all the details!');return;}
+    if(input==""||input2==''||input3==''||input4=='') {swal('please fill all the details!','','error');return;}
     const cookies = new Cookies();
     e.preventDefault();
 
@@ -42,7 +43,7 @@ function MessageSender() {
 
     fetch("https://capstonebackend0.herokuapp.com/request", requestOptions)
       .then(response => response.json())
-      .then(result => {alert('Your request is registered!');window.location.reload();})
+      .then(result => {swal('Your request is registered!','','success');setTimeout(()=>{window.location.reload();},2000);})
       .catch(error => console.log('error', error));
 
 

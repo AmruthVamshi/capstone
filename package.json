@@ -7,7 +7,7 @@
     "start": "node app",
     "devserver": "nodemon app",
     "client": "cd client && npm start",
-    "api":"nodemon app",
+    "api": "nodemon app",
     "dev": "concurrently --kill-others-on-fail \"npm run api\" \"npm run client\"",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
@@ -41,6 +41,7 @@
     "pg": "^8.3.3",
     "pg-hstore": "^2.3.3",
     "qs": "^6.9.4",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "sweetalert": "^2.1.2"
   }
 }

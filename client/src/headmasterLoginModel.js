@@ -10,6 +10,7 @@ import {Modal} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from 'universal-cookie';
 import jwt from 'jsonwebtoken';
+import swal from 'sweetalert';
 
 function HeadmasterLoginModel(props) {
   const [state, dispatch] = useStateValue();
@@ -18,7 +19,7 @@ function HeadmasterLoginModel(props) {
   const cookies = new Cookies();
 
   const handleLogin = ()=>{
-  	if(!email) {alert('enter your email');return}
+  	if(!email) {swal('enter your email',"","error");return}
   	var data = qs.stringify({
 	 'email': email,
 	 'password': password 
@@ -37,7 +38,7 @@ function HeadmasterLoginModel(props) {
 			if(response.data.auth===true){
 				cookies.set('logintoken',response.data.accessToken,{path:'/'});
 				jwt.verify(response.data.accessToken, 'helpastudentsecret', (err, decoded) => {
-				    if (err) alert(err);
+				    if (err) swal(err,"","error");
 				    dispatch({
 			          type: actionTypes.SET_HEADMASTER,
 			          headmaster: decoded,
@@ -47,9 +48,9 @@ function HeadmasterLoginModel(props) {
 				//window.location.reload();
 			}
 			else
-			alert(response.data.reason);
+			swal(response.data.reason,'','error');
 		}else{
-			alert('some error occured! try again!.');
+			swal('some error occured! try again!.','','error');
 		}
 	})
 	.catch(function (error) {

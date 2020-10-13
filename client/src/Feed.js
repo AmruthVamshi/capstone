@@ -11,6 +11,7 @@ import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Cookies from 'universal-cookie';
+import swal from 'sweetalert';
 
 function Feed(props) {
   const cookies = new Cookies();
@@ -100,12 +101,12 @@ function Feed(props) {
           return response.json(); 
         }
         throw new Error("failed to get your donations");
-        alert('failed to get your donations');
+        swal('failed to get your donations','','error');
       })
       .then(responseJson => {
         console.log(responseJson);
         if(!responseJson.body.length){
-          alert('You havent donated yet....!')
+          swal('You havent donated yet....!','','info')
           setShowDonations(false)
         }
           responseJson.body.map(post=>{
